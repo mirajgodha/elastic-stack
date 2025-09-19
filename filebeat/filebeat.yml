@@ -54,7 +54,7 @@ filebeat.inputs:
 #----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: ["10.0.2.15:5044"]
+  hosts: ["localhost:5044"]
   #hosts: ["127.0.0.1:5044"]
   #hosts: ["localhost:5044", "localhost:5045"]
 
