@@ -1,0 +1,7 @@
+elk_java/elk/target/generated-sources
+elk_java/elk/target/maven-archiver
+elk_java/elk/target/maven-status
+elk_java/elk/target/classes
+elk_java/elk/.idea/
+elk_java/elk/.gitignore
+elk_java/.DS_Store
