@@ -216,7 +216,7 @@ public class ElasticsearchDemo {
 
         String aggQuery = "{\"size\":0,\"aggs\":{" +
             "\"by_department\":{\"terms\":{\"field\":\"department\"}}," +
-            "\"by_action\":{\"terms\":{\"field\":\"action\",\"size\":10,\"aggs\":{\"avg_response_time\":{\"avg\":{\"field\":\"response_time\"}}}}}," +
+            "\"by_action\":{\"terms\":{\"field\":\"action\",\"size\":10},\"aggs\":{\"avg_response_time\":{\"avg\":{\"field\":\"response_time\"}}}}," +
             "\"activity_over_time\":{\"date_histogram\":{\"field\":\"timestamp\",\"calendar_interval\":\"day\"}}" +
             "}}";
 
