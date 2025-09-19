@@ -1,0 +1,23 @@
+#Search all types in all indices
+GET /_search
+
+
+#Search all types in the gb index
+GET /gb/_search
+
+#Search all types in the gb and us indices
+GET /gb,us/_search
+
+
+#Search all types in any indices beginning with g or beginning with u
+GET /g*,u*/_search
+
+
+#Search type user in the gb index
+GET /gb/user/_search
+
+#Search types user and tweet in the gb and us indices
+GET /gb,us/user,tweet/_search
+
+#Search types user and tweet in all indices
+GET /_all/user,tweet/_search

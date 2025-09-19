@@ -1,0 +1,15 @@
+{
+ "index_patterns": ["squid-*"],
+ "mappings": {
+     "properties": {
+       "client_address": { "type": "ip" },
+       "user": { "type": "keyword" },
+       "path": { "type": "keyword" },
+       "content_type": { "type": "keyword" },
+       "cache_result": { "type": "keyword" },
+       "request_method": { "type": "keyword" },
+       "server": { "type": "keyword" },
+       "hierarchy_code": { "type": "keyword" }
+      }
+  }
+}

@@ -1,0 +1,156 @@
+# Delete the `test` index
+DELETE /test
+
+# Insert some examples
+PUT /test/_doc/1
+{
+  "folder": "inbox",
+  "tag": [
+    "work"
+  ],
+  "starred": true,
+  "unread": false
+}
+
+PUT /test/_doc/2
+{
+  "folder": "inbox",
+  "tag": [
+    "spam"
+  ],
+  "starred": true,
+  "unread": false
+}
+
+PUT /test/_doc/3
+{
+  "folder": "inbox",
+  "tag": [
+    "other"
+  ],
+  "starred": false,
+  "unread": true
+}
+
+
+
+# Where `folder` is "inbox"
+# and `tag` is not spam
+# and either `starred` or `unread` is true
+GET /test/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "bool": {
+          "must": {
+            "term": {
+              "folder": "inbox"
+            }
+          },
+          "must_not": {
+            "term": {
+              "tag": "spam"
+            }
+          },
+          "should": [
+            {
+              "term": {
+                "starred": true
+              }
+            },
+            {
+              "term": {
+                "unread": true
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+#It will contain score, however previous query did not contain score
+#Check the socres, why one has score of "_score" : 1.1143606 and other has score of "_score" : 0.60353506,
+# Our data has only one unread true, however 2 starred true. So unread true is given higher preference, 
+#since all other conditions are matched for both the documents.
+GET /test/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "term": {
+          "folder": "inbox"
+        }
+      },
+      "must_not": {
+        "term": {
+          "tag": "spam"
+        }
+      },
+      "should": [
+        {
+          "term": {
+            "starred": true
+          }
+        },
+        {
+          "term": {
+            "unread": true
+          }
+        }
+      ]
+    }
+  }
+}
+
+##Output
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 1.1143606,
+    "hits" : [
+      {
+        "_index" : "test",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 1.1143606,
+        "_source" : {
+          "folder" : "inbox",
+          "tag" : [
+            "other"
+          ],
+          "starred" : false,
+          "unread" : true
+        }
+      },
+      {
+        "_index" : "test",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.60353506,
+        "_source" : {
+          "folder" : "inbox",
+          "tag" : [
+            "work"
+          ],
+          "starred" : true,
+          "unread" : false
+        }
+      }
+    ]
+  }
+}
+

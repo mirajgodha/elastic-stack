@@ -1,0 +1,97 @@
+# Delete the `test` index
+DELETE /test
+
+# Insert some examples
+PUT /test/_doc/1
+{
+  "title": "About search",
+  "age": 26,
+  "date": "2014-09-01",
+  "tag": [
+    "full_text",
+    "search"
+  ],
+  "public": false
+}
+
+PUT /test/_doc/2
+{
+  "age": 38,
+  "date": "2014-09-02",
+  "tag": [
+    "full_text",
+    "nosql"
+  ],
+  "public": true
+}
+
+
+# Where `age` is 26
+GET /test/_search
+{
+  "query": {
+    "term": {
+      "age": 26
+    }
+  }
+}
+
+# Where `date` is "2014-09-01"
+GET /test/_search
+{
+  "query": {
+    "term": {
+      "date": "2014-09-01"
+    }
+  }
+}
+
+# Where `public` is true
+GET /test/_search
+{
+  "query": {
+    "term": {
+      "public": true
+    }
+  }
+}
+
+#Queries specified under the bool.filter element have no effect on scoring — scores are returned as  0.
+GET /test/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "public": true
+        }
+      }
+    }
+  }
+}
+
+# Where `tag` is "full_text"
+GET /test/_search
+{
+  "query": {
+    "term": {
+      "tag": "full_text"
+    }
+  }
+}
+
+#Queries specified under the bool.filter element have no effect on scoring — scores are returned as  0.
+GET /test/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "tag": "full_text"
+        }
+      }
+    }
+  }
+}
+
+

@@ -1,0 +1,70 @@
+#Lets put some data
+
+curl -XPUT 'http://192.168.134.125:9200/megacorp/employee/1' -d '
+{
+"first_name" : "John",
+"last_name" :  "Smith",
+"age" :        25,
+"about" :      "I love to go rock climbing",
+"interests": [ "sports", "music" ]
+}'
+
+curl -XPUT 'http://192.168.134.125:9200/megacorp/employee/2' -d '
+{
+"first_name" : "Jane",
+"last_name": "Smith",
+"age" : 32,
+"about" : "I like to collect rock albums", 
+"interests": [ "music" ]
+}'
+
+curl -XPUT 'http://192.168.134.125:9200/megacorp/employee/3' -d '
+{
+"first_name" : "Douglas",
+"last_name": "Fir",
+"age" : 35,
+"about": "I like to build cabinets", 
+"interests": [ "forestry" ]
+}'
+
+
+# Get document
+
+curl -XGET 'http://192.168.134.125:9200/megacorp/employee/1'
+
+
+#Search for all employees 
+curl -XGET 'http://192.168.134.125:9200/megacorp/employee/_search'
+
+
+#Try searching for employees who have “Smith” in their last name 
+curl -XGET 'http://192.168.134.125:9200/megacorp/employee/_search?q=last_name:Smith'
+
+# Same query as above, but using the Query DSL
+GET /megacorp/employee/_search
+{
+  "query": {
+    "match": {
+      "last_name": "smith"
+    }
+  }
+}
+
+
+#employees with a last name of Smith, but we want only employees who are older than 30. 
+curl -XGET 'http://192.168.134.125:9200/megacorp/employee/_search' -d '
+{
+"query" : {
+"filtered" : {
+"filter" : {
+"range" : {
+"age":{"gt":30} }
+},
+"query" : {
+"match" : {
+"last_name" : "smith"
+} }
+} }
+}'
+
+

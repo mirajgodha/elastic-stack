@@ -1,0 +1,53 @@
+# Delete all data in the `website` index
+DELETE /website
+
+#As document does not exists, it will fail
+# Partial update with doc
+POST /website/blog/1/_update
+{
+   "doc" : {
+      "tags" : [ "testing" ],
+      "views": 0
+   }
+}
+
+#Every time that a user views a page, we increment the counter for that page. 
+#But if it is a new page, we can’t be sure that the counter already exists. 
+#If we try to update a nonexistent document, the update will fail.
+# Insert the `upsert` doc because the doc doesn't exist
+POST /website/pageviews/1/_update
+{
+   "script" : "ctx._source.views+=1",
+   "upsert": {
+       "views": 1
+   }
+}
+
+# Retrieve the doc
+GET /website/pageviews/1
+
+# Then run the script
+POST /website/pageviews/1/_update
+{
+   "script" : "ctx._source.views+=1",
+   "upsert": {
+       "views": 1
+   }
+}
+
+# Retrieve the doc
+GET /website/pageviews/1
+
+# Retry the update request up to 5 times
+#For instance, if two processes are both incrementing the page-view counter, it doesn’t matter in which order it happens; 
+#if a conflict occurs, the only thing we need to do is reattempt the update.
+#This can be done automatically by setting the retry_on_conflict parameter to the number of times that update should retry before failing; 
+#it defaults to 0.
+POST /website/pageviews/1/_update?retry_on_conflict=5
+{
+   "script" : "ctx._source.views+=1",
+   "upsert": {
+       "views": 1
+   }
+}
+

@@ -1,0 +1,26 @@
+# Check that Elasticsearch is running
+GET /
+
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+PUT index/_doc/1
+{
+  "body": "here"
+}
+
+# and get it ...
+GET index/_doc/1
+
+GET /
+
+GET /_count
+{
+  "query": {
+    "match_all": {}
+  }
+}

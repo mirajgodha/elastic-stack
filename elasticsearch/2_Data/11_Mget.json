@@ -1,0 +1,273 @@
+# Delete all data in the `website` index
+DELETE /website
+
+# Insert two documents
+PUT /website/_doc/2
+{
+  "title": "My first external blog entry",
+  "text":  "This is a piece of cake..."
+}
+
+PUT /website/_doc/1
+{
+   "views": 2
+}
+
+# Retrieve multiple documents
+GET /_mget
+{
+  "docs": [
+    {
+      "_index": "website",
+      "_id": 2,
+      "_source": "title"
+    },
+    {
+      "_index": "website",
+      "_id": 1,
+      "_source": "views"
+    }
+  ]
+}
+
+# Retrieve multiple docs, with a default index and type
+GET /website/_mget
+{
+   "docs" : [
+      { "_id" : 2 },
+      {  "_id" :   1 }
+   ]
+}
+
+# Retrieve multiple docs with a default index and type, short form
+GET /website/_mget
+{
+   "ids" : [ "2", "1" ]
+}
+
+
+
+
+
+# The ability to have multiple mapping types per index has been removed in 6.0. New indices will be restricted to a single type. This is the first step in the plan to remove mapping types altogether. Indices created in 5.x will continue to support multiple mapping types.
+# https://www.elastic.co/guide/en/elasticsearch/reference/6.0/removal-of-types.html
+
+
+
+#Let’s take the user/tweet example above. Originally, the workflow would have looked something like this:
+#does not work in 6.x onwards
+
+#delete twitter
+DELETE twitter
+
+PUT twitter
+{
+  "mappings": {
+    "user": {
+      "properties": {
+        "name": { "type": "text" },
+        "user_name": { "type": "keyword" },
+        "email": { "type": "keyword" }
+      }
+    },
+    "tweet": {
+      "properties": {
+        "content": { "type": "text" },
+        "user_name": { "type": "keyword" },
+        "tweeted_at": { "type": "date" }
+      }
+    }
+  }
+}
+
+PUT twitter/user/kimchy
+{
+  "name": "Shay Banon",
+  "user_name": "kimchy",
+  "email": "shay@kimchy.com"
+}
+
+PUT twitter/tweet/1
+{
+  "user_name": "kimchy",
+  "tweeted_at": "2017-10-24T09:00:00Z",
+  "content": "Types are going away"
+}
+
+
+
+#What to do????
+
+
+
+#You could achieve the same thing by adding a custom type field as follows:
+
+#delete twitter
+DELETE twitter
+
+PUT twitter
+{
+  "mappings": {
+    "doc": {
+      "properties": {
+        "type": { "type": "keyword" }, 
+        "name": { "type": "text" },
+        "user_name": { "type": "keyword" },
+        "email": { "type": "keyword" },
+        "content": { "type": "text" },
+        "tweeted_at": { "type": "date" }
+      }
+    }
+  }
+}
+
+PUT twitter/doc/user-kimchy
+{
+  "type": "user", 
+  "name": "Shay Banon",
+  "user_name": "kimchy",
+  "email": "shay@kimchy.com"
+}
+
+PUT twitter/doc/tweet-1
+{
+  "type": "tweet", 
+  "user_name": "kimchy",
+  "tweeted_at": "2017-10-24T09:00:00Z",
+  "content": "Types are going away"
+}
+
+GET twitter/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "user_name": "kimchy"
+        }
+      },
+      "filter": {
+        "match": {
+          "type": "tweet" 
+        }
+      }
+    }
+  }
+}
+
+
+
+# ADVANCE
+
+#This first example splits our twitter index into a tweets index and a users index:
+
+
+PUT users
+{
+  "mappings": {
+    "user": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "user_name": {
+          "type": "keyword"
+        },
+        "email": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
+
+PUT tweets
+{
+  "mappings": {
+    "tweet": {
+      "properties": {
+        "content": {
+          "type": "text"
+        },
+        "user_name": {
+          "type": "keyword"
+        },
+        "tweeted_at": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}
+
+POST _reindex
+{
+  "source": {
+    "index": "twitter",
+    "type": "user"
+  },
+  "dest": {
+    "index": "users"
+  }
+}
+
+POST _reindex
+{
+  "source": {
+    "index": "twitter",
+    "type": "tweet"
+  },
+  "dest": {
+    "index": "tweets"
+  }
+}
+
+
+#Custom type fieldedit
+
+#This next example adds a custom type field and sets it to the value of the original _type. It also adds the type to the _id in case there are any documents of different types which have conflicting IDs:
+PUT new_twitter
+{
+  "mappings": {
+    "doc": {
+      "properties": {
+        "type": {
+          "type": "keyword"
+        },
+        "name": {
+          "type": "text"
+        },
+        "user_name": {
+          "type": "keyword"
+        },
+        "email": {
+          "type": "keyword"
+        },
+        "content": {
+          "type": "text"
+        },
+        "tweeted_at": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}
+
+
+POST _reindex
+{
+  "source": {
+    "index": "twitter"
+  },
+  "dest": {
+    "index": "new_twitter"
+  },
+  "script": {
+    "source": """
+      ctx._source.type = ctx._type;
+      ctx._id = ctx._type + '-' + ctx._id;
+      ctx._type = 'doc';
+    """
+  }
+}

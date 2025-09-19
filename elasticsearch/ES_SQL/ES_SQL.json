@@ -1,0 +1,12 @@
+#One way to fire SQL
+POST _xpack/sql?format=txt
+{
+  "query" : "select * from website"
+}
+
+#Other way is open SQL console on ES node
+cd /usr/share/elasticsearch/bin
+./elasticsearch-sql-cli 192.168.134.127
+
+
+#3rd way is JDBC connection

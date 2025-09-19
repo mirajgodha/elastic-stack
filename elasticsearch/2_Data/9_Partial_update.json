@@ -1,0 +1,93 @@
+# Delete all data in the `website` index
+DELETE /website
+
+# Index a document
+PUT /website/blog/1
+{
+  "title": "My first blog entry",
+  "text":  "I am starting to get the hang of this..."
+}
+
+# Partial update with doc
+POST /website/blog/1/_update
+{
+   "doc" : {
+      "tags" : [ "testing" ],
+      "views": 0
+   }
+}
+
+# Retrieve the updated doc
+GET /website/blog/1
+
+
+
+# Delete all data in the `website` index
+DELETE /hockey
+
+
+#Put some bulk data
+PUT /hockey/myhockey/_bulk?refresh
+{"index":{"_id":1}}
+{"first":"johnny","last":"gaudreau","goals":[9,27,1],"assists":[17,46,0],"gp":[26,82,1],"born":"1993/08/13"}
+{"index":{"_id":2}}
+{"first":"sean","last":"monohan","goals":[7,54,26],"assists":[11,26,13],"gp":[26,82,82],"born":"1994/10/12"}
+{"index":{"_id":3}}
+{"first":"jiri","last":"hudler","goals":[5,34,36],"assists":[11,62,42],"gp":[24,80,79],"born":"1984/01/04"}
+
+#Retrieve id 1
+GET /hockey/myhockey/1
+
+#lets look at all the documents
+GET /hockey/myhockey/_search?q=*:*
+
+# Partial update with a script and params
+# last name will be changed to "last" : "hockey1"
+POST /hockey/myhockey/1/_update
+{
+  "script": {
+    "lang": "painless",
+    "source": "ctx._source.last = params.last",
+    "params": {
+      "last": "hockey1"
+    }
+  }
+}
+
+# Retrieve the updated doc
+GET /hockey/myhockey/1
+
+#also add fields to a document
+POST /hockey/myhockey/1/_update
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      ctx._source.last = params.last;
+      ctx._source.nick = params.nick
+    """,
+    "params": {
+      "last": "gaudreau",
+      "nick": "hockey"
+    }
+  }
+}
+
+
+
+# you can update all the hockey players whose names start with a consonant and end with a vowel:
+POST hockey/_update_by_query
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      if (ctx._source.last ==~ /[^aeiou].*[aeiou]/) {
+        ctx._source.last += "matched";
+      } else {
+        ctx.op = "noop";
+      }
+    """
+  }
+}
+
+# if getting error: Regexes are disabled. Set [script.painless.regex.enabled] to [true] in elasticsearch.yaml to allow them and restart elasticsearch

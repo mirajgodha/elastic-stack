@@ -1,0 +1,51 @@
+# Delete the `gb` index
+DELETE /gb
+
+# Specify mappings when creating the index
+PUT /gb
+{
+  "mappings": {
+    "properties": {
+      "tweet": {
+        "type": "text",
+        "analyzer": "english"
+      },
+      "date": {
+        "type": "date"
+      },
+      "name": {
+        "type": "text"
+      },
+      "user_id": {
+        "type": "long"
+      }
+    }
+  }
+}
+
+# Update mappings on an existing index
+PUT /gb/_mapping/
+{
+  "properties" : {
+    "tag" : {
+      "type" :    "keyword"
+    }
+  }
+}
+
+# Check new mapping
+GET /gb/_mapping
+
+# Test the analyzer for the `tweet` field
+GET /gb/_analyze
+{
+  "field": "tweet",
+  "text": "Black-cats"
+}
+
+# Test the analyzer for the `tag` field
+GET /gb/_analyze
+{
+  "field": "tag",
+  "text": "Black-cats"
+}

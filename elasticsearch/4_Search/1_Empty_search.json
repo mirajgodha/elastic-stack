@@ -1,0 +1,13 @@
+# First load the test data
+#as in 0_Test_data in 4_search
+
+# Empty search
+GET /_search
+
+#define timeout
+GET /_search?timeout=10ms
+
+################
+It should be noted that this timeout does not halt the execution of the query; it merely tells the coordinating node to return the results collected so far and to close the connection. In the background, other shards may still be processing the query even though results have been sent.
+Use the time-out because it is important to your SLA, not because you want to abort the execution of long-running queries.
+#########

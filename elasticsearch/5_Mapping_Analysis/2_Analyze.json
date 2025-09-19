@@ -1,0 +1,12 @@
+# Analyze the `text` with the `standard` analyzer
+GET /_analyze
+{
+  "analyzer": "standard",
+  "text": "Text to analyze"
+}
+
+GET /_analyze
+{
+  "analyzer": "english",
+  "text": "Text to analyze"
+}

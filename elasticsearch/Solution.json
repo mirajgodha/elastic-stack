@@ -1,0 +1,273 @@
+1. Insert our first document
+
+POST /inspections/_doc
+{
+"business_address": "660 Sacramento St", "business_city": "San Francisco", "business_id": "2228", "business_latitude": "37.793698", "business_location": {
+"type": "Point", "coordinates": [ -122.403984,
+37.793698 ]
+},
+"business_longitude": "-122.403984",
+"business_name": "Tokyo Express",
+"business_postal_code": "94111",
+"business_state": "CA",
+"inspection_date": "2016-02-04T00:00:00.000", "inspection_id": "2228_20160204",
+"inspection_type": "Routine",
+"inspection_score":96,
+"risk_category": "Low Risk",
+"violation_description": "Unclean nonfood contact surfaces",
+"violation_id": "2228_20160204_103142" }
+
+
+2. Search the document
+
+GET /inspections/_doc/_search
+
+
+3. PUT vs POST
+
+PUT /inspections/_doc
+{
+"business_address": "660 Sacramento St", "business_city": "San Francisco", "business_id": "2228", "business_latitude": "37.793698", "business_location": {
+"type": "Point", "coordinates": [ -122.403984,
+37.793698 ]
+},
+"business_longitude": "-122.403984",
+"business_name": "Tokyo Express",
+"business_postal_code": "94111",
+"business_state": "CA",
+"inspection_date": "2016-02-04T00:00:00.000", "inspection_id": "2228_20160204",
+"inspection_type": "Routine",
+"inspection_score":96,
+"risk_category": "Low Risk",
+"violation_description": "Unclean nonfood contact surfaces", "violation_id": "2228_20160204_103142"
+}
+
+4. Automatic document ID creation
+
+POST /inspections/_doc
+{
+"business_address": "660 Sacramento St", "business_city": "San Francisco", "business_id": "2228", "business_latitude": "37.793698", "business_location": {
+"type": "Point", "coordinates": [ -122.403984,
+37.793698 ]
+},
+"business_longitude": "-122.403984",
+"business_name": "Tokyo Express",
+"business_postal_code": "94111",
+"business_state": "CA",
+"inspection_date": "2016-02-04T00:00:00.000", "inspection_id": "2228_20160204",
+"inspection_type": "Routine",
+"inspection_score":96,
+"risk_category": "Low Risk",
+"violation_description": "Unclean nonfood contact surfaces", "violation_id": "2228_20160204_103142"
+}
+
+5. PUT with document id
+
+PUT /inspections/_doc/12345
+{
+"business_address": "660 Sacramento St", "business_city": "San Francisco", "business_id": "2228", "business_latitude": "37.793698", "business_location": {
+"type": "Point", "coordinates": [ -122.403984,
+37.793698 ]
+},
+"business_longitude": "-122.403984",
+"business_name": "Tokyo Express",
+"business_postal_code": "94111",
+"business_state": "CA",
+"inspection_date": "2016-02-04T00:00:00.000", "inspection_id": "2228_20160204",
+"inspection_type": "Routine",
+"inspection_score":96,
+"risk_category": "Low Risk",
+"violation_description": "Unclean nonfood contact surfaces", "violation_id": "2228_20160204_103142"
+}
+
+6. Index creation
+
+DELETE /inspections
+PUT /inspections
+{
+"settings": {
+"index.number_of_shards": 1, "index.number_of_replicas": 0
+} }
+
+
+7. Bulk API
+
+POST /inspections/_doc/_bulk
+{ "index": { "_id": 1 }}
+{"business_address":"315 California St","business_city":"San Francisco","business_id":"24936","business_latitude":"37.793199","business_location":{"ty pe":"Point","coordinates":[-122.400152,37.793199]},"business_longitude":"- 122.400152","business_name":"San Francisco Soup Company","business_postal_code":"94104","business_state":"CA","inspection_date":"2016 -06- 09T00:00:00.000","inspection_id":"24936_20160609","inspection_score":77,"inspection_ty pe":"Routine - Unscheduled","risk_category":"Low Risk","violation_description":"Improper food labeling or menu misrepresentation","violation_id":"24936_20160609_103141"}
+{ "index": { "_id": 2 }}
+{"business_address":"10 Mason St","business_city":"San Francisco","business_id":"60354","business_latitude":"37.783527","business_location":{"ty pe":"Point","coordinates":[-122.409061,37.783527]},"business_longitude":"- 122.409061","business_name":"Soup Unlimited","business_postal_code":"94102","business_state":"CA","inspection_date":"2016 -11-23T00:00:00.000","inspection_id":"60354_20161123","inspection_type":"Routine", "inspection_score": 95}
+{ "index": { "_id": 3 }}
+{"business_address":"2872 24th St","business_city":"San Francisco","business_id":"1797","business_latitude":"37.752807","business_location":{"typ e":"Point","coordinates":[-122.409752,37.752807]},"business_longitude":"- 122.409752","business_name":"TIO CHILOS GRILL","business_postal_code":"94110","business_state":"CA","inspection_date":"2016-07- 05T00:00:00.000","inspection_id":"1797_20160705","inspection_score":90,"inspection_typ e":"Routine - Unscheduled","risk_category":"Low Risk","violation_description":"Unclean nonfood contact surfaces","violation_id":"1797_20160705_103142"}
+{ "index": { "_id": 4 }}
+{"business_address":"1661 Tennessee St Suite 3B","business_city":"San Francisco Whard Restaurant","business_id":"66198","business_latitude":"37.75072","business_location":{"ty pe":"Point","coordinates":[-122.388478,37.75072]},"business_longitude":"-122.388478","business_name":"San Francisco Restaurant","business_postal_code":"94107","business_state":"CA","inspection_date":"201 6-05- 27T00:00:00.000","inspection_id":"66198_20160527","inspection_type":"Routine","inspecti on_score":56 }
+{ "index": { "_id": 5 }}
+{"business_address":"2162 24th Ave","business_city":"San Francisco","business_id":"5794","business_latitude":"37.747228","business_location":{"typ e":"Point","coordinates":[-122.481299,37.747228]},"business_longitude":"- 122.481299","business_name":"Soup House","business_phone_number":"+14155752700","business_postal_code":"94116","busi ness_state":"CA","inspection_date":"2016-09- 07T00:00:00.000","inspection_id":"5794_20160907","inspection_score":96,"inspection_typ e":"Routine - Unscheduled","risk_category":"Low Risk","violation_description":"Unapproved or unmaintained equipment or utensils","violation_id":"5794_20160907_103144"}
+{ "index": { "_id": 6 }}
+{"business_address":"2162 24th Ave","business_city":"San Francisco","business_id":"5794","business_latitude":"37.747228","business_location":{"typ e":"Point","coordinates":[-122.481299,37.747228]},"business_longitude":"- 122.481299","business_name":"Soup-or- Salad","business_phone_number":"+14155752700","business_postal_code":"94116","busin ess_state":"CA","inspection_date":"2016-09- 07T00:00:00.000","inspection_id":"5794_20160907","inspection_score":96,"inspection_typ e":"Routine - Unscheduled","risk_category":"Low Risk","violation_description":"Unapproved or unmaintained equipment or utensils","violation_id":"5794_20160907_103144"}
+
+
+
+
+GET /inspections/_doc/_search
+
+8. Let's find all inspection reports for places that sell soup
+
+GET /inspections/_doc/_search
+{
+  "query": {
+    "match": {
+      "business_name": "soup"
+    }
+  }
+}
+
+
+9. Look for restaurants with the name San Francisco
+
+GET /inspections/_doc/_search
+{
+  "query": {
+    "match_phrase": {
+      "business_name": "san francisco"
+    }
+  }
+}
+
+
+10. Find all docs with "soup" and "san francisco" in the business name
+
+GET /inspections/_doc/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "business_name": "soup"
+          }
+        },
+        {
+          "match_phrase": {
+            "business_name": "san francisco"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+11. Maybe you hate soup
+
+GET /inspections/_doc/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "match": {
+            "business_name": "soup"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+12. Emphasize places with "soup in the name"
+
+GET /inspections/_doc/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match_phrase": {
+            "business_name": {
+              "query": "soup",
+              "boost" : 3
+            }
+          }
+        },
+        {
+          "match_phrase": {
+            "business_name": {
+              "query": "san francisco"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+13. Highlighting
+
+GET /inspections/_doc/_search
+{
+  "query" : {
+    "match": {
+      "business_name": "soup"
+    }
+  },
+  "highlight": {
+    "fields": {
+      "business_name": {}
+    }
+  }
+}
+
+
+14. Find soup companies with a health score greater than 80
+
+GET /inspections/_doc/_search
+{
+  "query": {
+      "range": {
+        "inspection_score": {
+          "gte": 80
+        }
+      }
+  },
+  "sort": [
+    { "inspection_score" : "desc" }
+  ]
+}
+
+
+15. SQL queries
+
+POST /_xpack/sql?format=txt
+{
+"query": "select business_name, inspection_score from inspections"
+}
+
+16. Aggregations
+
+
+17. Let's find soup restaurants closest to us!
+
+GET /inspections/_mapping/_doc
+
+
+18. Updates
+
+POST /inspections/_doc/5/_update
+{
+   "doc" : {
+      "flagged" : true,
+      "views": 0
+   }
+}
+
+
+19. Delete document
+
+DELETE /inspections/_doc/5
+
+
+
+

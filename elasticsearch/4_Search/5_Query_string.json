@@ -1,0 +1,8 @@
+
+# Find `elasticsearch` in the `tweet` field
+GET /_all/tweet/_search?q=tweet:elasticsearch
+
+# Find `john` in the `name` field
+# and `mary` in the `tweet` field
+GET /_all/tweet/_search?q=%2Bname%3Ajohn+%2Btweet%3Amary
+

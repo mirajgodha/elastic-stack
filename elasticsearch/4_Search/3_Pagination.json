@@ -1,0 +1,18 @@
+# First load the test data
+# https://gist.github.com/clintongormley/8579281
+
+# Results 0..4
+GET /_search?size=5
+
+# Results 5..9
+GET /_search?size=5&from=5
+
+# Results 10..14
+GET /_search?size=5&from=10
+
+###############
+Deep Paging in Distributed Systems
+To understand why deep paging is problematic, let’s imagine that we are searching within a single index with five primary shards. When we request the first page of results (results 1 to 10), each shard produces its own top 10 results and returns them to the requesting node, which then sorts all 50 results in order to select the overall top 10.
+Now imagine that we ask for page 1,000—results 10,001 to 10,010. Everything works in the same way except that each shard has to produce its top 10,010 results. The requesting node then sorts through all 50,050 results and discards 50,040 of them!
+You can see that, in a distributed system, the cost of sorting results grows exponen‐ tially the deeper we page. There is a good reason that web search engines don’t return more than 1,000 results for any query.
+###############
