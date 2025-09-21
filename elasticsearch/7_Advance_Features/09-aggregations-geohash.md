@@ -16,9 +16,10 @@ POST /_bulk
 { "product_id": "GEO004", "name": "Product Chicago", "location": { "lat": 41.8781, "lon": -87.6298 }, "price": 1100, "category": "test" }
 
 # Example 1: Basic geohash grid aggregation
+# size = 0 , We don’t want actual documents, only aggregation results.
 GET /ecommerce/_search
 {
-  "size": 0,
+  "size": 0, 
   "aggs": {
     "geographic_clusters": {
       "geohash_grid": {
@@ -30,6 +31,7 @@ GET /ecommerce/_search
 }
 
 # Example 2: Geohash grid with higher precision for detailed clustering
+# if your data covers 500 geohash grid cells at precision 5, but you set "size": 10, ES will only return the top 10 cells (by document count).
 GET /ecommerce/_search
 {
   "size": 0,

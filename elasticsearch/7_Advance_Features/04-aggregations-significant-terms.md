@@ -4,14 +4,33 @@
 # Significant terms find unusual or interesting terms that appear more frequently
 # in the foreground set compared to the background set (entire index)
 
+# The significant_terms aggregation finds terms that are unusually common in your query results compared to the background dataset (the rest of the index).
+
+# It doesn’t just tell you “what’s frequent” (that’s terms).
+
+# It tells you “what makes this subset special”.
+
+# Practical uses
+#------------------
+# Reviews analysis → What words are common in 5-star reviews but not in others?
+# Customer segmentation → What keywords differentiate churned users vs retained ones?
+# Fraud detection → What attributes are disproportionately frequent in fraudulent transactions?
+# E-commerce insights → What terms appear in top-selling products vs others?
+
+# Simple analogy
+
+# terms = “What words do people say most often?”
+# significant_terms = “What words do people in this group say way more than everyone else?”
+
 # Example 1: Find significant terms in product descriptions for high-rated products
+# This query finds which keywords in product descriptions are strongly associated with high-rated products (rating ≥ 4.7).
 GET /ecommerce/_search
 {
   "size": 0,
   "query": {
     "range": {
       "rating": {
-        "gte": 4.7
+        "gte": 3
       }
     }
   },

@@ -11,7 +11,10 @@ PUT /ecommerce
     "properties": {
       "product_id": { "type": "keyword" },
       "name": { "type": "text", "analyzer": "standard" },
-      "description": { "type": "text" },
+       "description": { 
+        "type": "text",
+         "fielddata": true
+      },
       "category": { "type": "keyword" },
       "brand": { "type": "keyword" },
       "price": { "type": "double" },

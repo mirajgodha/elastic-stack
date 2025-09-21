@@ -50,6 +50,13 @@ GET /user_activity/_search
 
 # Example 4: Cardinality with precision control
 # Higher precision_threshold gives more accurate results but uses more memory
+# 🔹 What precision_threshold means
+# cardinality uses a probabilistic algorithm (HyperLogLog++) → it’s approximate, not exact.
+# precision_threshold controls how accurate the unique count should be.
+#   - Low threshold (default 3000) → faster, less memory, but result may have a small error.
+#   - Higher threshold → more accurate, but uses more memory.
+#   - If the actual unique count ≤ threshold → the result is exact.
+#   - If it’s much higher than threshold → result is approximate (but still close).
 GET /ecommerce/_search
 {
   "size": 0,
@@ -64,6 +71,13 @@ GET /ecommerce/_search
 }
 
 # Example 5: Multiple cardinality aggregations
+# This query counts the unique brands, unique categories, and unique in-stock products in the ecommerce index. ✅
+#SELECT
+#    COUNT(DISTINCT brand)        AS unique_brands,
+#    COUNT(DISTINCT category)     AS unique_categories,
+#    COUNT(DISTINCT CASE WHEN in_stock = TRUE THEN product_id END) AS unique_in_stock_products
+#FROM ecommerce;
+
 GET /ecommerce/_search
 {
   "size": 0,
@@ -96,6 +110,13 @@ GET /ecommerce/_search
 }
 
 # Example 6: Cardinality by category (using terms aggregation + cardinality)
+# This query groups products by category and, for each category, counts the number of unique brands. ✅
+#SELECT
+#    category,
+#    COUNT(DISTINCT brand) AS unique_brands_per_category
+#FROM ecommerce
+#GROUP BY category;
+
 GET /ecommerce/_search
 {
   "size": 0,
@@ -115,21 +136,6 @@ GET /ecommerce/_search
   }
 }
 
-# Example 7: Cardinality on text field using script
-# Count unique words in product descriptions
-GET /ecommerce/_search
-{
-  "size": 0,
-  "aggs": {
-    "unique_description_words": {
-      "cardinality": {
-        "script": {
-          "source": "doc['description.keyword'].value.split(' ').length"
-        }
-      }
-    }
-  }
-}
 
 # Notes:
 # - Cardinality is approximate for large datasets (uses HyperLogLog algorithm)
