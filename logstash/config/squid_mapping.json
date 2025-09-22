@@ -1,15 +1,23 @@
+PUT _index_template/squid_template
 {
- "index_patterns": ["squid-*"],
- "mappings": {
-     "properties": {
-       "client_address": { "type": "ip" },
-       "user": { "type": "keyword" },
-       "path": { "type": "keyword" },
-       "content_type": { "type": "keyword" },
-       "cache_result": { "type": "keyword" },
-       "request_method": { "type": "keyword" },
-       "server": { "type": "keyword" },
-       "hierarchy_code": { "type": "keyword" }
+  "index_patterns": ["squid-*"],
+  "template": {
+    "mappings": {
+      "properties": {
+        "client_address": { "type": "ip" },
+        "user": { "type": "keyword" },
+        "content_type": { "type": "keyword" },
+        "cache_result": { "type": "keyword" },
+        "request_method": { "type": "keyword" },
+        "server": { "type": "keyword" },
+        "hierarchy_code": { "type": "keyword" },
+        "bytes": { "type": "integer" },
+        "duration": { "type": "integer" },
+        "status_code": { "type": "integer" },
+        "timestamp": { "type": "date", "format": "epoch_second" }
       }
-  }
+    }
+  },
+  "priority": 500,
+  "data_stream": { }
 }
