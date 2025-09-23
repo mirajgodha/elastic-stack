@@ -2,7 +2,7 @@
 DELETE /website
 
 # Create a document with ID 123 if the doc doesn't already exist
-PUT /website/blog/123?op_type=create
+PUT /website/_doc/123?op_type=create
 {
   "title": "My first blog entry",
   "text":  "Just trying this out...",
@@ -10,7 +10,7 @@ PUT /website/blog/123?op_type=create
 }
 
 # Conflict when trying to create a document which already exists
-PUT /website/blog/123?op_type=create
+PUT /website/_doc/123?op_type=create
 {
   "title": "My first blog entry",
   "text":  "I am starting to get the hang of this...",
@@ -19,7 +19,7 @@ PUT /website/blog/123?op_type=create
 
 
 #Other way to do this is
-PUT /website/blog/123/_create
+PUT /website/_doc/123/_create
 {
   "title": "My first blog entry",
   "text":  "I am starting to get the hang of this...",

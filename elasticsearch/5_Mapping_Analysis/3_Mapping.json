@@ -28,7 +28,8 @@ PUT /gb/_mapping/
 {
   "properties" : {
     "tag" : {
-      "type" :    "keyword"
+      "type" :    "text",
+      "analyzer" : "standard"
     }
   }
 }

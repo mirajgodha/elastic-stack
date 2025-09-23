@@ -2,7 +2,7 @@
 DELETE /website
 
 # Create a document with ID 123
-PUT /website/blog/123
+PUT /website/_doc/123
 {
   "title": "My first blog entry",
   "text":  "Just trying this out...",
@@ -10,7 +10,7 @@ PUT /website/blog/123
 }
 
 # Reindex a document
-PUT /website/blog/123
+PUT /website/_doc/123
 {
   "title": "My first blog entry",
   "text":  "I am starting to get the hang of this...",
@@ -18,4 +18,4 @@ PUT /website/blog/123
 }
 
 # Retrieve the document
-GET /website/blog/123
+GET /website/_doc/123

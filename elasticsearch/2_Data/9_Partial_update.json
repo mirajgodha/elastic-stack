@@ -2,14 +2,14 @@
 DELETE /website
 
 # Index a document
-PUT /website/blog/1
+PUT /website/_doc/1
 {
   "title": "My first blog entry",
   "text":  "I am starting to get the hang of this..."
 }
 
 # Partial update with doc
-POST /website/blog/1/_update
+POST /website/_doc/1/_update
 {
    "doc" : {
       "tags" : [ "testing" ],
@@ -18,7 +18,7 @@ POST /website/blog/1/_update
 }
 
 # Retrieve the updated doc
-GET /website/blog/1
+GET /website/_doc/1
 
 
 

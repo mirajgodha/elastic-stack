@@ -2,21 +2,21 @@
 DELETE /us,gb
 
 # Insert test data
-PUT /us/user/1
+PUT /us/_doc/1
 {
    "email" : "john@smith.com",
    "name" : "John Smith",
    "username" : "@john"
 }
 
-PUT /gb/user/2
+PUT /gb/_doc/2
 {
    "email" : "mary@jones.com",
    "name" : "Mary Jones",
    "username" : "@mary"
 }
 
-PUT /gb/user/3
+PUT /gb/_doc/3
 {
    "date" : "2014-09-13",
    "name" : "Mary Jones",
@@ -24,7 +24,7 @@ PUT /gb/user/3
    "user_id" : 2
 }
 
-PUT /us/user/4
+PUT /us/_doc/4
 {
    "date" : "2014-09-14",
    "name" : "John Smith",
@@ -32,7 +32,7 @@ PUT /us/user/4
    "user_id" : 1
 }
 
-PUT /gb/user/5
+PUT /gb/_doc/5
 {
    "date" : "2014-09-15",
    "name" : "Mary Jones",
@@ -40,7 +40,7 @@ PUT /gb/user/5
    "user_id" : 2
 }
 
-PUT /us/user/6
+PUT /us/_doc/6
 {
    "date" : "2014-09-16",
    "name" : "John Smith",
@@ -48,7 +48,7 @@ PUT /us/user/6
    "user_id" : 1
 }
 
-PUT /gb/user/7
+PUT /gb/_doc/7
 {
    "date" : "2014-09-17",
    "name" : "Mary Jones",
@@ -56,14 +56,14 @@ PUT /gb/user/7
    "user_id" : 2
 }
 
-PUT /us/user/8
+PUT /us/_doc/8
 {
    "date" : "2014-09-18",
    "name" : "John Smith",
    "user_id" : 1
 }
 
-PUT /gb/user/9
+PUT /gb/_doc/9
 {
    "date" : "2014-09-19",
    "name" : "Mary Jones",
@@ -71,7 +71,7 @@ PUT /gb/user/9
    "user_id" : 2
 }
 
-PUT /us/user/10
+PUT /us/_doc/10
 {
    "date" : "2014-09-20",
    "name" : "John Smith",
@@ -79,7 +79,7 @@ PUT /us/user/10
    "user_id" : 1
 }
 
-PUT /gb/user/11
+PUT /gb/_doc/11
 {
    "date" : "2014-09-21",
    "name" : "Mary Jones",
@@ -87,7 +87,7 @@ PUT /gb/user/11
    "user_id" : 2
 }
 
-PUT /us/user/12
+PUT /us/_doc/12
 {
    "date" : "2014-09-22",
    "name" : "John Smith",
@@ -95,7 +95,7 @@ PUT /us/user/12
    "user_id" : 1
 }
 
-PUT /gb/user/13
+PUT /gb/_doc/13
 {
    "date" : "2014-09-23",
    "name" : "Mary Jones",
@@ -103,7 +103,7 @@ PUT /gb/user/13
    "user_id" : 2
 }
 
-PUT /us/user/14
+PUT /us/_doc/14
 {
    "date" : "2014-09-24",
    "name" : "John Smith",

@@ -2,7 +2,7 @@
 DELETE /website
 
 # Create a document
-PUT /website/blog/123
+PUT /website/_doc/123
 {
   "title": "My first blog entry",
   "text":  "I am starting to get the hang of this...",
@@ -10,10 +10,10 @@ PUT /website/blog/123
 }
 
 # Delete an existing document
-DELETE /website/blog/123
+DELETE /website/_doc/123
 
 # Delete an non-existent document
-DELETE /website/blog/123
+DELETE /website/_doc/123
 
 #Any thing intresting you noticed
 #Even though the document doesn’t exist (found is false), the _version number has still been incremented. 

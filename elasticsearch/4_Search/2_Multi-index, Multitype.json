@@ -14,10 +14,10 @@ GET /g*,u*/_search
 
 
 #Search type user in the gb index
-GET /gb/user/_search
+GET /gb/_doc/_search
 
 #Search types user and tweet in the gb and us indices
-GET /gb,us/user,tweet/_search
+GET /gb,us/_doc/_search
 
 #Search types user and tweet in all indices
-GET /_all/user,tweet/_search
+GET /_all/_doc/_search
