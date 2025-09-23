@@ -12,10 +12,10 @@ PUT /megacorp/employee/1
 }
 
 # Retrieve the document
-GET /megacorp/employee/1
+GET /megacorp/_doc/1
 
 # Update the document, by PUTing it again
-PUT /megacorp/employee/1
+PUT /megacorp/_doc/1
 {
     "first_name" : "John",
     "last_name" :  "Smith",
@@ -25,10 +25,10 @@ PUT /megacorp/employee/1
 }
 
 # Retrieve the updated document
-GET /megacorp/employee/1
+GET /megacorp/_doc/1
 
 # Delete the document
-DELETE /megacorp/employee/1
+DELETE /megacorp/_doc/1
 
 # Note: HEAD/exists requests do not work in Sense
 # because they only return HTTP headers, not
