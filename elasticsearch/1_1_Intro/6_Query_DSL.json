@@ -2,7 +2,7 @@
 DELETE /megacorp
 
 # Index our example documents
-PUT /megacorp/employee/1
+PUT /megacorp/_doc/1
 {
     "first_name" : "John",
     "last_name" :  "Smith",
@@ -11,7 +11,7 @@ PUT /megacorp/employee/1
     "interests": [ "sports", "music" ]
 }
 
-PUT /megacorp/employee/2
+PUT /megacorp/_doc/2
 {
     "first_name" :  "Jane",
     "last_name" :   "Smith",
@@ -20,7 +20,7 @@ PUT /megacorp/employee/2
     "interests":  [ "music" ]
 }
 
-PUT /megacorp/employee/3
+PUT /megacorp/_doc/3
 {
     "first_name" :  "Douglas",
     "last_name" :   "Fir",
@@ -33,7 +33,7 @@ PUT /megacorp/employee/3
 # and who are older than 30
 #filtered is deprecated, so use the blow query with bool
 #old version 6.X not work in 7.X
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
     "query" : {
         "filtered" : {
@@ -52,7 +52,7 @@ GET /megacorp/employee/_search
 }
 
 
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
   "query": {
     "bool": {
@@ -75,7 +75,7 @@ GET /megacorp/employee/_search
 }
 
 # Find all employees who enjoy "rock" or "climbing"
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
     "query" : {
         "match" : {
@@ -85,7 +85,7 @@ GET /megacorp/employee/_search
 }
 
 # Find all employees who enjoy "rock climbing"
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
     "query" : {
         "match_phrase" : {
@@ -96,7 +96,7 @@ GET /megacorp/employee/_search
 
 # Find all employees who enjoy "rock climbing"
 # and highlight the matches
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
     "query" : {
         "match_phrase" : {
