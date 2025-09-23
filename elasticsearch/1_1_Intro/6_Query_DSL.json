@@ -32,25 +32,6 @@ PUT /megacorp/_doc/3
 # Find all employees whose `last_name` is Smith
 # and who are older than 30
 #filtered is deprecated, so use the blow query with bool
-#old version 6.X not work in 7.X
-GET /megacorp/_search
-{
-    "query" : {
-        "filtered" : {
-            "filter" : {
-                "range" : {
-                    "age" : { "gt" : 30 }
-                }
-            },
-            "query" : {
-                "match" : {
-                    "last_name" : "smith"
-                }
-            }
-        }
-    }
-}
-
 
 GET /megacorp/_search
 {

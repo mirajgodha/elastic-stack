@@ -2,7 +2,7 @@
 DELETE /megacorp
 
 # Index our example documents
-PUT /megacorp/employee/1
+PUT /megacorp/_doc/1
 {
     "first_name" : "John",
     "last_name" :  "Smith",
@@ -11,7 +11,7 @@ PUT /megacorp/employee/1
     "interests": [ "sports", "music" ]
 }
 
-PUT /megacorp/employee/2
+PUT /megacorp/_doc/2
 {
     "first_name" :  "Jane",
     "last_name" :   "Smith",
@@ -20,7 +20,7 @@ PUT /megacorp/employee/2
     "interests":  [ "music" ]
 }
 
-PUT /megacorp/employee/3
+PUT /megacorp/_doc/3
 {
     "first_name" :  "Douglas",
     "last_name" :   "Fir",
@@ -30,7 +30,7 @@ PUT /megacorp/employee/3
 }
 
 # Calculate the most popular interests for all employees
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
   "aggs": {
     "all_interests": {
@@ -41,9 +41,8 @@ GET /megacorp/employee/_search
   }
 }
 
-# Calculate the most popular interests for
-# employees named "Smith"
-GET /megacorp/employee/_search
+# Calculate the most popular interests for employees named "Smith"
+GET /megacorp/_search
 {
   "query": {
     "match": {
@@ -60,7 +59,7 @@ GET /megacorp/employee/_search
 }
 
 # Calculate the average age of employee per interest
-GET /megacorp/employee/_search
+GET /megacorp/_search
 {
     "aggs" : {
         "all_interests" : {
