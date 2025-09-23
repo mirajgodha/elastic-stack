@@ -2,7 +2,7 @@
 DELETE /website
 
 # Create a document with ID 123
-PUT /website/blog/123
+PUT /website/_doc/123
 {
   "title": "My first blog entry",
   "text":  "Just trying this out...",

@@ -2,7 +2,7 @@
 DELETE /website
 
 # Create a document with an auto-generated ID
-POST /website/blog/
+POST /website/_doc/
 {
   "title": "My second blog entry",
   "text":  "Still trying this out...",

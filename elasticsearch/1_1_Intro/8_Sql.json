@@ -52,4 +52,4 @@ POST /_sql?format=txt
 }
 
 #running from command line
-/usr/share/elasticsearch/bin/elasticsearch-sql-cli
+#/usr/share/elasticsearch/bin/elasticsearch-sql-cli
