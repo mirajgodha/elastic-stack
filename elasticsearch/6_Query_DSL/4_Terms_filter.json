@@ -25,9 +25,20 @@ PUT /test/_doc/2
   "public": true
 }
 
+# Where `tag` contains:
+# "search", "full_text" or "nosql"
+GET /test/_search
+{
+  "query": {
+    "terms": {
+      "tag": ["search","full_text","nosql"]
+    }
+  }
+}
 
 # Where `tag` contains:
 # "search", "full_text" or "nosql"
+# using filter
 GET /test/_search
 {
   "query": {
