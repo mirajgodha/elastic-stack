@@ -1,0 +1,107 @@
+# 1. Create Index with Mapping
+PUT /library
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "custom_text_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": { "type": "text", "analyzer": "custom_text_analyzer" },
+      "author": { "type": "keyword" },
+      "published_year": { "type": "integer" },
+      "description": { "type": "text", "analyzer": "english" }
+    }
+  }
+}
+
+# 2. Insert Documents
+POST /library/_doc/1
+{
+  "title": "The Alchemist",
+  "author": "Paulo Coelho",
+  "published_year": 1988,
+  "description": "A philosophical story about following dreams."
+}
+
+POST /library/_doc
+{
+  "title": "Sapiens",
+  "author": "Yuval Noah Harari",
+  "published_year": 2011,
+  "description": "A brief history of humankind."
+}
+
+POST /library/_doc
+{
+  "title": "1984",
+  "author": "George Orwell",
+  "published_year": 1949,
+  "description": "A dystopian novel about totalitarianism."
+}
+
+
+# 3. Test Versioning
+GET /library/_doc/1
+
+# Then update safely:
+PUT /library/_doc/1?if_seq_no=3&if_primary_term=1
+{
+  "title": "The Alchemist",
+  "author": "Paulo Coelho",
+  "published_year": 1988,
+  "description": "A story of Santiago, a shepherd, searching for treasure."
+}
+
+# 4. Simple Queries
+# a) Books by George Orwell
+GET /library/_search
+{
+  "query": {
+    "term": { "author": "George Orwell" }
+  }
+}
+
+# b) Books with "history" in description
+GET /library/_search
+{
+  "query": {
+    "match": { "description": "history" }
+  }
+}
+
+# c) Books published after 2000
+GET /library/_search
+{
+  "query": {
+    "range": {
+      "published_year": { "gt": 2000 }
+    }
+  }
+}
+
+# Bonus Challenge
+
+POST /library/_doc/1
+{
+  "title": "Duplicate ID Test",
+  "author": "Test Author",
+  "published_year": 2025,
+  "description": "This overwrites the document with ID 1."
+}
+
+# Analyze the word "dreams"
+POST /library/_analyze
+{
+  "analyzer": "english",
+  "text": "dreams"
+}
+
+

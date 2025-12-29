@@ -54,6 +54,9 @@ GET /ecommerce/_search
 }
 
 # Example 4: Multiple percentile ranks with custom keyed output
+### "keyed": true
+### Returns results as a key–value map instead of an array (makes JSON easier to parse).
+
 GET /ecommerce/_search
 {
   "size": 0,
